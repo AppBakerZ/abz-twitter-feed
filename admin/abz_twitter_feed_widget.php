@@ -38,7 +38,7 @@ class ABZ_Twitter_Feed_Widget extends WP_Widget {
 		echo $before_widget;
 		if ( ! empty( $title ) )
 			echo $before_title . $title . $after_title;
-		echo '<div class="abz_twitter_feed"></div> ';
+		echo '<div class="abz_twitter_feed" data-count="' . $instance['count'] . '"></div> ';
 		echo $after_widget;
 	}
 

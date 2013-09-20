@@ -57,7 +57,7 @@ add_action( 'wp_ajax_abz_test_oauth_settings', 'abz_test_oauth_settings' );
 /**
 * Returns a string that contains the json representing the timeline
 */
-function abz_get_twitter_feed(){
+function abz_get_twitter_feed() {
 	//get the data from ajax() call
 	global $abz_twitter_feed_settings;
 	
@@ -89,7 +89,9 @@ function abz_get_twitter_feed(){
 
 	}	
 	//*/
-	
+
+    $count = $_REQUEST["count"];
+
 	$oauth = array( 'oauth_consumer_key' => $consumer_key,
 					'oauth_token' => $oauth_access_token,
 					'oauth_consumer_secret' => $consumer_secret,
@@ -99,6 +101,14 @@ function abz_get_twitter_feed(){
 	$reader = new ABZ_Cached_Twitter_Timeline_Reader($oauth);
 
 	$results = $reader ->get_json();
+
+    // pull only as many tweet as $count
+
+    if (isset($count) && is_numeric($count)) {
+        $arr = json_decode($results);
+        $arr = array_slice($arr, 0, $count);
+        $results = json_encode($arr);
+    }
 
 	return $results;
 }
